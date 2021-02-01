@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.card.CardFragment">
+
+    <data>
+        <variable
+            name="card"
+            type="com.fasila.aqsalandmarks.model.card.Card" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:layoutDirection="rtl">
+
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="TextView"
+            android:textColor="@color/TextColorPrimary"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:textAppearance="@font/lemonada_bold"
+            android:layout_marginTop="@dimen/card_margins"
+            app:layout_constraintBottom_toTopOf="@+id/card_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/card_container"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/card"
+                    android:elevation="5dp"
+                    app:layout_constraintBottom_toTopOf="@id/card_quiz_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_title"
+                    android:layout_margin="@dimen/card_margins">
+                <ImageView
+                    android:id="@+id/card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:padding="3dp"
+                    android:contentDescription="@string/card_image_content_description"
+                    tools:src="@drawable/alghawanimah_gate" />
+
+                <TextView
+                    android:id="@+id/card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:textSize="15sp"
+                    android:padding="15dp"
+                    tools:text="TEST"
+                    android:textColor="@android:color/black"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/card_quiz_button"
+            style="@style/Widget.App.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_margins"
+            android:backgroundTint="@color/TextColorPrimary"
+            android:text="@string/quiz_button_text"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_container"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

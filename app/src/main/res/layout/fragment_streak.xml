@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.score.StreakFragment">
+
+<LinearLayout
+    android:id="@+id/streak_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    android:padding="35dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/streak_icon_gold_333"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:textSize="17sp"
+        android:fontFamily="@font/lemonada_bold"
+        android:textColor="@color/TextColorPrimary"
+        android:text="لقد تعلمت" />
+
+    <TextView
+        android:id="@+id/streak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="55sp"
+        android:fontFamily="@font/lemonada_bold"
+        android:textColor="@color/streak_orange"
+        tools:text="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:fontFamily="@font/lemonada_bold"
+        android:textColor="@color/TextColorPrimary"
+        android:text="أيام متتالية" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textSize="11sp"
+        android:fontFamily="@font/lemonada"
+        android:textColor="@color/TextColorPrimary"
+        android:text="عد للتعلم غدًا حتى لا تفقد تقدمك" />
+
+</LinearLayout>
+</layout>

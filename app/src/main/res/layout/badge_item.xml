@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="badge"
+            type="com.fasila.aqsalandmarks.model.badge.Badge" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl">
+
+    <ImageView
+        android:id="@+id/badge_image"
+        android:layout_width="@dimen/badge_image_size"
+        android:layout_height="@dimen/badge_image_size"
+        android:src="@drawable/doors_badge"
+        badgeImage="@{badge}"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/badge_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            tools:text="خبير الأبواب"
+            badgeName="@{badge}"/>
+
+        <TextView
+            android:id="@+id/badge_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/non_passed_stage_text_color"
+            tools:text="انهي جميع الأبواب"
+            badgeDescription="@{badge}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_bar_states"
+                tools:progress="50"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                badgeProgress="@{badge}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="50%"
+                android:textColor="@color/TextColorPrimary"
+                badgeProgressText="@{badge}"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</layout>

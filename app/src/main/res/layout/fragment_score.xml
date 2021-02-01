@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    tools:context=".ui.score.ScoreFragment">
+
+    <TextView
+        android:id="@+id/score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="215dp"
+        android:fontFamily="@font/el_messiri_bold"
+        android:textColor="@color/TextColorPrimary"
+        android:textSize="@dimen/score_text_size"
+        app:layout_constraintBottom_toTopOf="@id/stars_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="أحسنت" />
+
+    <LinearLayout
+        android:id="@+id/stars_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/score_text">
+
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/star2" />
+
+        <ImageView
+            android:id="@+id/star2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/star2" />
+
+        <ImageView
+            android:id="@+id/star3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/star2" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/next_button"
+        style="@style/Widget.App.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/cairo_bold"
+        android:orientation="horizontal"
+        android:text="@string/back_button_text"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

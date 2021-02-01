@@ -1,0 +1,37 @@
+[
+  {
+    "id": "0",
+    "image": "doors_badge",
+    "name": "خبير أبواب الأقصى",
+    "description": "انهي تعلم الأبواب",
+    "goal": 15
+  },
+  {
+    "id": "1",
+    "image": "m_badge",
+    "name": "خبير مآذن الأقصى",
+    "description": "انهي تعلم المآذن",
+    "goal": 5
+  },
+  {
+    "id": "2",
+    "image": "ms_badge",
+    "name": "خبير مساجد الأقصى",
+    "description": "انهي تعلم المساجد",
+    "goal": 7
+  },
+  {
+    "id": "3",
+    "image": "q_badge",
+    "name": "خبير قباب الأقصى",
+    "description": "انهي تعلم القباب",
+    "goal": 16
+  },
+  {
+    "id": "4",
+    "image": "s_badges",
+    "name": "خبير مدارس الأقصى",
+    "description": "انهي تعلم المدارس",
+    "goal": 13
+  }
+]

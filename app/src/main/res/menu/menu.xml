@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--    <item-->
+<!--        android:id="@+id/profile_item"-->
+<!--        android:title="Profile"-->
+<!--        android:icon="@drawable/round_account_circle_white_36"-->
+<!--        app:showAsAction="always" />-->
+
+<!--        <item-->
+<!--            android:id="@+id/about_item"-->
+<!--            android:title=""-->
+<!--            android:icon="@drawable/ic_round_info_24"-->
+<!--            app:showAsAction="always" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/streak_item"-->
+<!--        android:title=""-->
+<!--        android:icon="@drawable/streak_icon_white_36"-->
+<!--        app:showAsAction="always">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/streak_text"-->
+<!--                android:title="1"-->
+<!--                android:icon="@drawable/streak_icon_white_36"/>-->
+<!--        </menu>-->
+<!--    </item>-->
+</menu>

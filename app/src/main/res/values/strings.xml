@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">Aqsa Landmarks</string>
+    <string name="app_name">معالم الأقصى</string>
+    <string name="app_intro">
+        المسجد الأقصى هو كل ما داخل السور
+        \n
+        وتبلغ مساحته 144 ألف م²</string>
+    <string name="stage_header_content_description">stage_header_image_view</string>
+    <string name="stage_footer_content_description">stage_footer_image_view</string>
+    <string name="sub_stage_image_button_content_description">sub stage image button</string>
+
+    <string name="quiz_button_text">انتقل للاختبار</string>
+    <string name="card_image_content_description">image of landmark card</string>
+    <string name="user_name_hint">اسم المستخدم</string>
+    <string name="password_hint">كلمة السر</string>
+    <string name="cancel_button_text">الغاء</string>
+    <string name="login_button_text">تسجيل الدخول</string>
+    <string name="email_hint">البريد الإلكتروني</string>
+    <string name="register_button_text">انشاء حساب</string>
+    <string name="try_button_text">جرب بدون حساب</string>
+    <string name="sign_out_button_text">تسجيل الخروج</string>
+    <string name="submitButtonText">اختر</string>
+    <string name="next_button_text">التالي</string>
+    <string name="back_button_text">استمر</string>
+    <string name="streak_title">Streak</string>
+    <string name="google_sign_button_text">Google</string>
+    <string name="old_password_hint">كلمة السر الحالية</string>
+    <string name="new_password_hint">كلمة السر الجديدة</string>
+    <string name="forget_password_text">نسيت كلمة السر؟</string>
+    <string name="forget_password_text_focus"><u>نسيت كلمة السر؟</u></string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

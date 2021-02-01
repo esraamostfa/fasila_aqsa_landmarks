@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "482887396079",
+    "firebase_url": "https://aqsa-landmarks.firebaseio.com",
+    "project_id": "aqsa-landmarks",
+    "storage_bucket": "aqsa-landmarks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482887396079:android:9713c5c4ed7f332dbe091a",
+        "android_client_info": {
+          "package_name": "com.fasila.aqsalandmarks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482887396079-rrbs182fkkotfkboghgk39svgp2b4eah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fasila.aqsalandmarks",
+            "certificate_hash": "dc82018137068b2f9ad258c25f2911b2da6bbf0e"
+          }
+        },
+        {
+          "client_id": "482887396079-ijjumesm6mg5k4llv31a980mld78lopu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ4kVCSezME8_enLxmaQ4N3547TVFhXAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482887396079-ijjumesm6mg5k4llv31a980mld78lopu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

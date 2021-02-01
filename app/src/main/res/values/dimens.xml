@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--rectangle_shape+dimens-->
+    <dimen name="rectangle_width">115dp</dimen>
+    <dimen name="rectangle_height">45dp</dimen>
+    <dimen name="rectangle_radius">21dp</dimen>
+
+    <!--rectangle_shape+dimens-->
+    <dimen name="circle_width">75dp</dimen>
+    <dimen name="circle_stroke_width">1dp</dimen>
+    <dimen name="stages_recycler_view_margin">3dp</dimen>
+    <dimen name="stage_footer_container_top_margin">15dp</dimen>
+    <dimen name="stage_header_container_top_bottom_margin">25dp</dimen>
+    <dimen name="sub_stage_item_bottom_padding">25dp</dimen>
+    <dimen name="card_margins">35dp</dimen>
+
+    <dimen name="reveal_height">200dp</dimen>
+    <dimen name="score_text_size">45sp</dimen>
+    <dimen name="score_stars_top_margin">11dp</dimen>
+    <dimen name="stage_star_size">21dp</dimen>
+    <dimen name="badge_image_size">111dp</dimen>
+
+    <dimen name="divider_height">3dp</dimen>
+    <!--
+    Because the window insets on round devices are larger than 15dp, this padding only applies
+    to square screens.
+    -->
+    <dimen name="box_inset_layout_padding">0dp</dimen>
+
+    <!--
+    This padding applies to both square and round screens. The total padding between the buttons
+    and the window insets is box_inset_layout_padding (above variable) on square screens and
+    inner_frame_layout_padding (below variable) on round screens.
+    -->
+    <dimen name="inner_frame_layout_padding">5dp</dimen>
+
+</resources>

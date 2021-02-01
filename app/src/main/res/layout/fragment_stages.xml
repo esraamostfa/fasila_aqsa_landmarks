@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:layoutDirection="rtl"
+        tools:context=".ui.stages.StagesFragment">
+
+        <LinearLayout
+            android:id="@+id/back_drop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary"
+            android:paddingTop="70dp"
+            android:paddingBottom="130dp">
+
+            <include layout="@layout/profile_back_drop"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tool_bar"
+                style="@style/Widget.App.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/round_account_circle_white_36"
+                app:title=" ">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="25dp"
+                    android:src="@drawable/ic_round_info_24"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/el_messiri_bold"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/hearts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/concert_one"
+                    tools:text="5"
+                    android:textSize="21sp"
+                    android:drawablePadding="3dp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/baseline_favorite_white_24" />
+
+                <TextView
+                    android:id="@+id/streak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="11dp"
+                    android:fontFamily="@font/concert_one"
+                    tools:text="1"
+                    android:textSize="21sp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/progress_bar_background"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/streak_icon_green_24" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stages_recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/stages_recycler_view_margin"
+            android:background="@drawable/rounded_corner_background"
+            android:elevation="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

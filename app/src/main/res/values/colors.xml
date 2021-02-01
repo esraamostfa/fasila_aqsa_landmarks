@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#AEDBB0</color>
+    <color name="colorPrimaryDark">#0f4210</color>
+    <color name="colorPrimaryLight">#f8ffd7</color>
+    <color name="TextColorPrimary">#0f4210</color>
+    <color name="colorAccent">#f8ffd7</color>
+    <color name="backgroundColor">#f1f8e9</color>
+
+    <color name="non_passed_stage_color">#CFD0CE</color>
+    <color name="non_passed_stage_text_color">#7D7D7D</color>
+    <color name="progress_bar_background">#390F4210</color>
+    <color name="streak_orange">#EC920B</color>
+    <color name="gold">#FFEB3B</color>
 </resources>
