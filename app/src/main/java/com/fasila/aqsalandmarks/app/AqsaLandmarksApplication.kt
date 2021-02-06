@@ -11,6 +11,8 @@ import com.fasila.aqsalandmarks.BuildConfig
 import com.fasila.aqsalandmarks.model.AqsaLmRepository
 import com.fasila.aqsalandmarks.model.AqsaLmarksDb
 import com.fasila.aqsalandmarks.ui.MyBroadcastReceiver
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.GlobalScope
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -19,6 +21,9 @@ import java.util.*
 
 
 class AqsaLandmarksApplication : Application() {
+
+    val database = Firebase.database
+    val stageRef = database.getReference("stage")
 
     override fun onCreate() {
         super.onCreate()
