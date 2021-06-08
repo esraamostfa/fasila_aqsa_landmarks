@@ -22,8 +22,8 @@ class CardFragment : Fragment() {
 
     private lateinit var binding: FragmentCardBinding
 
-    private val args : CardFragmentArgs by navArgs()
-    private lateinit var cardId : String
+    private val args: CardFragmentArgs by navArgs()
+    private lateinit var cardId: String
 
     private lateinit var viewModel: CardViewModel
 
@@ -32,7 +32,7 @@ class CardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_card, container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_card, container, false)
 
         cardId = args.stageId
         val application = requireNotNull((this.activity)?.application)
@@ -47,19 +47,22 @@ class CardFragment : Fragment() {
     }
 
     private fun setCardVisibility() {
-        binding.cardContainer.setOnClickListener {
-            if (binding.cardContent.visibility == GONE) {
-                binding.cardContent.visibility = VISIBLE
-                binding.cardImage.visibility = GONE
-            }else {
-                binding.cardContent.visibility = GONE
-                binding.cardImage.visibility = VISIBLE
-            }
+        binding.cardImage.setOnClickListener {
+            binding.cardContent.visibility = VISIBLE
+            binding.cardImage.visibility = GONE
+        }
+        binding.cardContent.setOnClickListener {
+            binding.cardContent.visibility = GONE
+            binding.cardImage.visibility = VISIBLE
         }
     }
 
     private fun setCardViews() {
-        val imageResource = activity?.resources?.getIdentifier(viewModel.card.value?.uri, null, activity?.packageName)
+        val imageResource = activity?.resources?.getIdentifier(
+            viewModel.card.value?.uri,
+            null,
+            activity?.packageName
+        )
         binding.cardImage.setImageResource(imageResource!!)
 
         val cardContent = viewModel.card.value?.content
@@ -70,8 +73,12 @@ class CardFragment : Fragment() {
     }
 
     private fun onClickQuizButton() {
-        binding.cardQuizButton.setOnClickListener{
-            findNavController().navigate(CardFragmentDirections.actionCardFragmentToQuizFragment(cardId))
+        binding.cardQuizButton.setOnClickListener {
+            findNavController().navigate(
+                CardFragmentDirections.actionCardFragmentToQuizFragment(
+                    cardId
+                )
+            )
         }
     }
 }

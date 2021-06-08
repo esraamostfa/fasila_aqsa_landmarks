@@ -29,6 +29,8 @@ class AqsaLmRepository(
 
     fun getAllStages(): LiveData<List<Stage>> = stageDao.getAllStages()
 
+    suspend fun deleteAllStages() = stageDao.deleteAll()
+
     fun getCardById(id: String): Card = cardDao.getById(id)
 
     fun getQuizzesByStage(stageId: String): QuizzesByStage = stageDao.getQuizzesByStage(stageId)
@@ -44,5 +46,7 @@ class AqsaLmRepository(
     fun getAllBadges() : LiveData<List<Badge>> = badgeDao.getAllBadges()
 
     suspend fun updateBadge(badge: Badge) = badgeDao.update(badge)
+
+    suspend fun deleteAllBadges() = badgeDao.deleteAll()
 
 }

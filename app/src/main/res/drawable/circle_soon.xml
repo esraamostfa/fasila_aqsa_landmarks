@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <size
+        android:width="@dimen/circle_width"
+        android:height="@dimen/circle_width"/>
+
+    <solid android:color="@color/soon"/>
+    <stroke
+        android:color="@color/non_passed_stage_text_color"
+        android:width="@dimen/circle_stroke_width"/>
+
+</shape>

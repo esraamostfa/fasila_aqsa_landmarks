@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">معالم الأقصى</string>
     <string name="app_intro">
-        المسجد الأقصى هو كل ما داخل السور
+        المسجد الأقصى\n
+        هو كل ما داخل السور
         \n
         وتبلغ مساحته 144 ألف م²</string>
     <string name="stage_header_content_description">stage_header_image_view</string>
@@ -33,4 +34,10 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+
+    <string name="about_text1">يهدف هذا التطبيق للتعريف بمعالم المسجد الأقصى بأسلوب مبسط ومسلي.</string>
+    <string name="about_text2">مصدر المعلومات الواردة في التطبيق هو كتاب معالم المسجد الأقصى التابع لمؤسسة القدس الدولية.</string>
+    <string name="about_text3">نرحب بالتواصل والإقتراحات لتحسين التطبيق على البريد الإلكتروني:</string>
+    <string name="about_text4">fasilaapps@gmail.com</string>
+
 </resources>

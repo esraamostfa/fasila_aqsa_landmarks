@@ -10,89 +10,104 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:layoutDirection="rtl">
-
-            <LinearLayout
-                android:id="@+id/user_container"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:background="@color/colorPrimary"
+                android:layoutDirection="rtl">
 
-                <EditText
-                    android:id="@+id/edit_user_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/user_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:paddingTop="11dp"
-                    android:visibility="gone"/>
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingStart="15dp"
-                    android:paddingTop="11dp"
-                    android:paddingEnd="15dp"
-                    android:layout_marginEnd="95dp"
-                    android:fontFamily="@font/el_messiri_bold"
-                    android:textColor="@color/TextColorPrimary"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    tools:text="اسم المستخدم" />
+                    <EditText
+                        android:id="@+id/edit_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:paddingTop="11dp"
+                        android:visibility="gone" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/save_button"
-                    style="@style/Widget.App.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:visibility="gone"
-                    android:text="حفظ"/>
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginEnd="95dp"
+                        android:fontFamily="@font/el_messiri_bold"
+                        android:paddingStart="15dp"
+                        android:paddingTop="11dp"
+                        android:paddingEnd="15dp"
+                        android:textColor="@color/TextColorPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="اسم المستخدم" />
 
-                <ImageView
-                    android:id="@+id/settings_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="11dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/settings_icon_24" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/save_button"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="حفظ"
+                        android:visibility="gone" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sign_out_button"
-                    style="@style/Widget.App.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/sign_out_button_text" />
+                    <ImageView
+                        android:id="@+id/settings_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:paddingTop="11dp"
+                        android:src="@drawable/settings_icon_24" />
 
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sign_out_button"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/sign_out_button_text" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/badges_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:paddingTop="25dp"
                     android:orientation="vertical"
+                    android:paddingStart="15dp"
+                    android:paddingTop="25dp"
+                    android:paddingEnd="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/user_container">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/badges_recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:layout_width="@dimen/badge_image_size"
+                        android:layout_height="@dimen/badge_image_size"
+                        android:layout_gravity="center"
+                        android:src="@drawable/final_badge_closed" />
+                    <TextView
+                        android:id="@+id/badge_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/non_passed_stage_text_color"
+                        android:text="انهي تعلم جميع معالم الأقصى"
+                        android:layout_marginBottom="5dp"/>
                 </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
     </merge>

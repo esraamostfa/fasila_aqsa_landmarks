@@ -36,8 +36,9 @@ class StagesDividerDecoration (color: Int, private val heightInPixels: Int, priv
             val top = child.bottom - params.bottomMargin*3
             val bottom = top + heightInPixels
             val left1 = parent.paddingLeft
-            val right1 = ((parent.width - parent.paddingRight)/2) - 121
-            val left2 = ((parent.width - parent.paddingRight)/2)+121
+            //val right1 = ((parent.width - parent.paddingRight)/2) - 121
+            val right1 = parent.width/2 - parent.width/5.7
+            val left2 = parent.width/2 + parent.width/5.7
             val right2 = parent.width - parent.paddingRight
             if (isFooter) {
                 c.drawRect(left1.toFloat(), top.toFloat(), right1.toFloat(), bottom.toFloat(), paint)

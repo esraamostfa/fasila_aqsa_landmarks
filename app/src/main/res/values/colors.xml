@@ -10,6 +10,8 @@
     <color name="non_passed_stage_color">#CFD0CE</color>
     <color name="non_passed_stage_text_color">#7D7D7D</color>
     <color name="progress_bar_background">#390F4210</color>
+    <color name="soon">#96506151</color>
+    <color name="soon_dark">#E9384439</color>
     <color name="streak_orange">#EC920B</color>
     <color name="gold">#FFEB3B</color>
 </resources>

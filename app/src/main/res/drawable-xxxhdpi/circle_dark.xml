@@ -12,19 +12,3 @@
         android:width="@dimen/circle_stroke_width"/>
 
 </shape>
-<!--
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="25dp"
-    android:height="25dp"
-    android:viewportHeight="24.0"
-    android:viewportWidth="24.0">
-    <group android:name="background">
-        <path
-            android:name="circle"
-            android:fillColor="#ffffff"
-            android:strokeColor="@color/TextColorPrimary"
-            android:strokeWidth="1"
-            android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
-    </group>
-</vector>
--->

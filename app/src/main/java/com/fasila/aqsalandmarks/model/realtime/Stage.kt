@@ -1,7 +1,7 @@
 package com.fasila.aqsalandmarks.model.realtime
 
 data class Stage (
-    val id: String,
-    var passed: Boolean,
+    val stageId: String= "",
+    var passed: Boolean = false,
     var score: Int = 0,
         )

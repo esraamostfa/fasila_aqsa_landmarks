@@ -34,4 +34,29 @@
     "description": "انهي تعلم المدارس",
     "goal": 13
   }
+,
+  {
+    "id": "5",
+    "image": "r_badge",
+    "name": "خبير أروقة الأقصى",
+    "description": "انهي تعلم الأروقة",
+    "goal": 3
+  }
+
+,
+  {
+    "id": "6",
+    "image": "bk_badge",
+    "name": "خبير بوائك الأقصى",
+    "description": "انهي تعلم البوائك",
+    "goal": 9
+  }
+,
+  {
+    "id": "7",
+    "image": "as_badge",
+    "name": "خبير أسبلة الأقصى",
+    "description": "انهي تعلم الأسبلة",
+    "goal": 15
+  }
 ]

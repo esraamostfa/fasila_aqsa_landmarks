@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true">
-
             <ImageView
                 android:id="@+id/sub_stage_image_button"
                 android:layout_width="wrap_content"
@@ -31,16 +30,15 @@
                 android:contentDescription="@string/sub_stage_image_button_content_description"
                 android:src="@drawable/circle"
                 app:stageImage="@{stage}"
-                app:stageEnable="@{stage}"
                 android:onClick="@{() -> clickListener.onClick(stage)}"/>
 
             <LinearLayout
+                android:id="@+id/stars_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_marginTop="29dp">
-
                 <ImageView
                     android:id="@+id/star1"
                     android:layout_width="@dimen/stage_star_size"
@@ -65,9 +63,7 @@
                     tools:visibility="visible"
                     android:src="@drawable/star2"
                     app:stageStar3="@{stage}"/>
-
             </LinearLayout>
-
         </FrameLayout>
 
         <TextView
@@ -80,6 +76,5 @@
             tools:text="1"
             app:stageName="@{stage}"
             app:stageTextColor="@{stage}"/>
-
     </RelativeLayout>
 </layout>

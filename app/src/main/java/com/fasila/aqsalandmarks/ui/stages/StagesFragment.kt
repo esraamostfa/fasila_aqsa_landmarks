@@ -1,9 +1,13 @@
 package com.fasila.aqsalandmarks.ui.stages
 
+import android.animation.ValueAnimator
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
@@ -13,9 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fasila.aqsalandmarks.R
 import com.fasila.aqsalandmarks.app.AqsaLandmarksApplication
 import com.fasila.aqsalandmarks.databinding.FragmentStagesBinding
+import com.fasila.aqsalandmarks.rootRef
 import com.fasila.aqsalandmarks.ui.MainActivity
 import com.fasila.aqsalandmarks.ui.profile.ChangePasswordDialogFragment
 import com.fasila.aqsalandmarks.ui.profile.DeleteAccountDialogFragment
@@ -33,6 +35,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.profile_back_drop.*
 import kotlinx.android.synthetic.main.profile_back_drop.view.*
@@ -52,6 +58,7 @@ class StagesFragment : Fragment() {
     val user = Firebase.auth.currentUser
     lateinit var name: String
     lateinit var email: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,27 +93,34 @@ class StagesFragment : Fragment() {
 
         }
 
-        setProfileBackDrop()
-
         //initialize viewModel
         viewModel = ViewModelProvider(this).get(StagesViewModel::class.java)
 
         onClickStage()
         setupRecyclerView()
-        setBadgesRecyclerView()
+        //setupRecyclerViewSoon()
+        setProfileBackDrop()
         AqsaLandmarksApplication.calculateStreak(false)
         setStreakColor()
 
         val streak = AqsaLandmarksApplication.sharedPref.getInt("streakCounter", 0)
+        Timber.i(streak.toString())
         binding.streak.text = streak.toString()
         binding.streak.setOnClickListener {
-            Toast.makeText(activity, "You are on $streak days streak", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "لقد تعلمت $streak أيام متواصلة", Toast.LENGTH_SHORT).show()
         }
         binding.hearts.text = AqsaLandmarksApplication.sharedPref.getString("hearts", "5")
 
+        binding.aboutButton.setOnClickListener {
+            findNavController().navigate(R.id.action_stagesFragment_to_aboutFragment)
+        }
 
         setHasOptionsMenu(true)
         //setSupportActionBar()
+
+        // TODO: Step 1.7 call create channel
+        createChannel("aqsa_channel", "معالم الأقصى")
+
         return binding.root
     }
 
@@ -114,9 +128,9 @@ class StagesFragment : Fragment() {
     //setup the recyclerView span
     private fun setSpanSize(layoutManager: GridLayoutManager) {
         val singleSpanPos =
-            listOf(0, 15, 16, 21, 22, 29, 30, 46, 47, 60, 61, 64, 65, 74, 75, 90, 91, 95, 96, 100)
+            listOf(0, 15, 16, 21, 22, 29, 30, 46, 47, 48, 61, 62, 65, 66, 75, 76, 91, 92, 96, 97, 101)
         val doubleSpanPos =
-            listOf(17, 18, 19, 20, 23, 24, 25, 26, 27, 28, 62, 63, 66, 67, 68, 69, 70, 71, 72, 73)
+            listOf(17, 18, 19, 20, 23, 24, 25, 26, 27, 28, 63, 64, 67, 68, 69, 70, 71, 72, 73, 74)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (position) {
@@ -129,11 +143,12 @@ class StagesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = StagesRecyclerViewAdapter(StageListener { stageId ->
-            viewModel.onStageClicked(stageId)
+        adapter = StagesRecyclerViewAdapter(StageListener { stage ->
+            viewModel.onStageClicked(stage)
         })
         binding.stagesRecyclerView.adapter = adapter
         //adapter.updateStages(viewModel.stages)
+
         viewModel.stages.observe(this.viewLifecycleOwner, Observer { stages ->
             stages?.let { adapter.submitList(stages) }
         })
@@ -153,23 +168,33 @@ class StagesFragment : Fragment() {
     }
 
     private fun onClickStage() {
-        viewModel.navigateToStageDialog.observe(viewLifecycleOwner, { stageId ->
+        viewModel.navigateToStageDialog.observe(viewLifecycleOwner, { stage ->
             val headers = listOf(0, 16, 22, 30, 47, 61, 65, 75, 91, 96)
             val hearts = AqsaLandmarksApplication.sharedPref.getString("hearts", "0")?.toInt()!!
-            stageId?.let {
-                if (stageId.toInt() !in headers && hearts > 0) {
+            stage?.let {
+                if (stage.id.toInt() !in headers && hearts > 0 && stage.id.toInt() < 48 && stage.passed) {
                     this.findNavController().navigate(
-                        StagesFragmentDirections.actionStagesFragmentToStageDialogFragment(stageId)
+                        StagesFragmentDirections.actionStagesFragmentToStageDialogFragment(stage.id)
                     )
                     viewModel.onStageDialogNavigated()
                 } else if (hearts == 0) {
                     Toast.makeText(activity, "للأسف نفذت فرصك!", Toast.LENGTH_LONG).show()
                     viewModel.onStageDialogNavigated()
+                } else if (stage.id.toInt() >= 48) {
+                    Toast.makeText(activity, "ستتوفر قريبًا؛ كن بالانتظار!", Toast.LENGTH_LONG)
+                        .show()
+                } else if (!stage.passed) {
+                    Toast.makeText(
+                        activity,
+                        "قم بإتمام المراحل السابقة بنجمتين أو أكثر لتتمكن من فتح هذه المرحلة",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
         })
     }
+
 
     private fun setProfileBackDrop() {
         user?.let {
@@ -182,13 +207,10 @@ class StagesFragment : Fragment() {
             } else {
                 binding.backDrop.user_name.text = "لم يتم تأكيد بريدك الإلكتروني"
             }
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            val uid = user.uid
         }
         onClickSignOutButton(user)
         onClickSettingsButton(user)
+        setBadgesRecyclerView()
     }
 
     private fun onClickSignOutButton(user: FirebaseUser?) {
@@ -197,16 +219,61 @@ class StagesFragment : Fragment() {
             binding.backDrop.sign_out_button.text = resources.getText(R.string.sign_out_button_text)
             binding.backDrop.sign_out_button.setOnClickListener {
                 Firebase.auth.signOut()
-                Toast.makeText(requireContext(), "لقد قمت بتسجيل الخروج", Toast.LENGTH_LONG).show()
-                findNavController().navigate(R.id.action_stagesFragment_to_openingFragment)
+                deleteUserData()
+                Handler().postDelayed({
+                    Toast.makeText(requireContext(), "لقد قمت بتسجيل الخروج", Toast.LENGTH_LONG)
+                        .show()
+                    findNavController().navigate(R.id.action_stagesFragment_to_openingFragment)
+                }, 3000)
             }
         } else {
             binding.backDrop.sign_out_button.text = "تسجيل دخول أو انشاء حساب"
             binding.backDrop.sign_out_button.setOnClickListener {
+                deleteUserData()
                 findNavController().navigate(R.id.action_stagesFragment_to_openingFragment)
 
             }
         }
+    }
+
+    private fun deleteUserData() {
+        animateDeletingUserData()
+        deleteStagesUserData()
+        deleteBadgesUserData()
+        AqsaLandmarksApplication.sharedPref.edit().putInt("streakCounter", 0).apply()
+        AqsaLandmarksApplication.sharedPref.edit().putInt("lastDay", 0).apply()
+        AqsaLandmarksApplication.sharedPref.edit().putString("hearts", "5").apply()
+    }
+
+    private fun deleteStagesUserData() {
+        viewModel.stages.observe(this.viewLifecycleOwner, Observer { stages ->
+            stages?.let {
+                for (stage in stages) {
+                    if (stage.id == "1") {
+                        stage.score = 0
+                        stage.passed = true
+                        viewModel.updateStages(stage)
+                    } else {
+                        stage.score = 0
+                        stage.passed = false
+                        viewModel.updateStages(stage)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun deleteBadgesUserData() {
+        viewModel.badges.observe(this.viewLifecycleOwner, Observer { badges ->
+            badges?.let {
+                for (badge in badges) {
+                    badge.achieve = 0
+                    viewModel.updateBadges(badge)
+                    Timber.i(badge.toString())
+                }
+            }
+        })
+
     }
 
     private fun onClickSettingsButton(user: FirebaseUser?) {
@@ -216,36 +283,9 @@ class StagesFragment : Fragment() {
                 createDropDownMenu(user)
                 //findNavController().navigate(R.id.action_stagesFragment_to_settingsDialogFragment)
             }
-//                val alertDialog: AlertDialog? = activity?.let {
-//                    val name = TextView(it)
-//                    val linearLayout = LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.WRAP_CONTENT,
-//                        LinearLayout.LayoutParams.WRAP_CONTENT)
-//                    name.layoutParams = linearLayout
-//                    name.text = user.displayName
-//                    val email = TextView(it)
-//                    email.layoutParams = linearLayout
-//                    email.text = user.email
-//
-//                    val builder = AlertDialog.Builder(it)
-//                    builder.setPositiveButton("حفط"){ dialog, _ ->
-//                            dialog.dismiss()
-//                        }
-//                        .setNegativeButton("الغاء"){ dialog, _ ->
-//                            dialog.cancel()
-//                            dialog.dismiss()
-//                            }
-//                        .setView(R.layout.settings_dialog)
-//                        .create()
-//                }
-//                alertDialog?.show()
-//            }
-
         } else {
-
             binding.backDrop.settings_button.visibility = View.GONE
         }
-
     }
 
     private fun createDropDownMenu(user: FirebaseUser) {
@@ -273,9 +313,7 @@ class StagesFragment : Fragment() {
 
             true
         }
-
         dropDownMenu.show()
-
     }
 
     private fun editUserName(user: FirebaseUser) {
@@ -322,42 +360,74 @@ class StagesFragment : Fragment() {
     }
 
     private fun deleteAccount(user: FirebaseUser) {
-        for (userInfo in FirebaseAuth.getInstance().currentUser!!.providerData) {
-            if (userInfo.providerId == "password") {
-                println("User is signed in with email/password")
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = MaterialAlertDialogBuilder(
+                requireContext(),
+                R.style.ThemeOverlay_App_SettingsDialog
+            )
+            builder.setTitle("هل بالتأكيد تريد حذف حسابك؟")
+                .setPositiveButton("نعم، حذف") { _, _ ->
+                    for (userInfo in FirebaseAuth.getInstance().currentUser!!.providerData) {
+                        if (userInfo.providerId == "password") {
+                            println("User is signed in with email/password")
 
-                val dialog = DeleteAccountDialogFragment()
-                dialog.show(childFragmentManager, "DeleteAccountDialogFragment")
-                //findNavController().navigate(R.id.action_stagesFragment_to_deleteAccountDialogFragment)
-            } else {
-                val alertDialog: AlertDialog? = activity?.let {
-                    val builder = MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_SettingsDialog)
-                    builder.setTitle("هل بالتأكيد تريد حذف حسابك؟")
-                        .setPositiveButton("نعم، حذف") { _, _ ->
-                        user.delete()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Timber.d("User account deleted.")
-                                    Toast.makeText(context, "تم حذف الحساب بنجاح",
-                                        Toast.LENGTH_SHORT).show()
-                                    activity?.finish()
-                                    startActivity(Intent(activity, MainActivity::class.java))
+                            val dialog = DeleteAccountDialogFragment()
+                            dialog.show(childFragmentManager, "DeleteAccountDialogFragment")
+                            //findNavController().navigate(R.id.action_stagesFragment_to_deleteAccountDialogFragment)
+                        } else {
+                            rootRef.child(user.uid).removeValue()
+                            user.delete()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        deleteUserData()
+                                        Timber.d("User account deleted.")
+                                        Handler().postDelayed({
+                                            Toast.makeText(
+                                                context, "تم حذف الحساب بنجاح",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            activity?.finish()
+                                            startActivity(
+                                                Intent(
+                                                    activity,
+                                                    MainActivity::class.java
+                                                )
+                                            )
+                                        }, 5000)
+                                    } else {
+                                        Toast.makeText(
+                                            context, "حدثت مشكلة أثناء حذف الحساب",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(context, "حدثت مشكلة أثناء حذف الحساب",
-                                        Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                    }
-                        .setNegativeButton("الغاء") { dialog, _ ->
-                            dialog.cancel()
-                            dialog.dismiss()
                         }
-                        .create()
+                    }
                 }
-                alertDialog?.show()
-            }
+                .setNegativeButton("الغاء") { dialog, _ ->
+                    dialog.cancel()
+                    dialog.dismiss()
+                }
+                .create()
         }
+        alertDialog?.show()
+    }
+
+
+    private fun animateDeletingUserData() {
+        binding.progressBar.alpha = 0f
+        binding.progressBar.visibility = View.VISIBLE
+
+        val alphaAnimator = ValueAnimator.ofFloat(0f, 1f)
+        alphaAnimator.duration = 1000
+
+        alphaAnimator.addUpdateListener {
+            val animationAlpha = it.animatedValue as Float
+            binding.progressBar.alpha = animationAlpha
+            binding.stagesRecyclerView.alpha = 1 - animationAlpha
+        }
+
+        alphaAnimator.start()
     }
 
 
@@ -414,5 +484,32 @@ class StagesFragment : Fragment() {
 //            true
 //        } else super.onOptionsItemSelected(item)
 //    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        // TODO: Step 1.6 START create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                // TODO: Step 2.4 change importance
+                NotificationManager.IMPORTANCE_HIGH
+            )// TODO: Step 2.6 disable badges for this channel
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "تنبيه عند استعادة الفرص"
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
+        // TODO: Step 1.6 END create a channel
+    }
 
 }

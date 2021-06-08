@@ -62,10 +62,10 @@
         </LinearLayout>
 
         <ImageView
+
             android:id="@+id/quiz_image"
             android:layout_width="0dp"
             android:layout_height="245dp"
-            android:layout_marginTop="25dp"
             android:src="@drawable/alaspat_gate"
             app:layout_constraintBottom_toTopOf="@id/question_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -135,18 +135,20 @@
         <!--            android:backgroundTint="@{quiz.setSubmitButtonColor()}"-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_button"
+            style="@style/Widget.App.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="55dp"
-            style="@style/Widget.App.Button"
             android:enabled="false"
-            android:text="@string/submitButtonText"
+            android:layout_marginTop="15dp"
             android:paddingStart="50dp"
-            android:paddingEnd="50dp"
             android:paddingTop="15dp"
+            android:paddingEnd="50dp"
             android:paddingBottom="15dp"
+            android:text="@string/submitButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/answers_radio_group"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -154,16 +156,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.App.Button"
-            android:layout_marginBottom="55dp"
+            android:layout_marginTop="15dp"
             android:paddingStart="50dp"
-            android:paddingEnd="50dp"
             android:paddingTop="15dp"
+            android:paddingEnd="50dp"
             android:paddingBottom="15dp"
             android:text="@string/next_button_text"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/answers_radio_group"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

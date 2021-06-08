@@ -1,5 +1,6 @@
 package com.fasila.aqsalandmarks.model.quiz
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -10,6 +11,7 @@ data class Quiz(
     @PrimaryKey
     val id: String,
     val quizStageId: String,
+    val cardImageId: String,
     val question: String,
     @TypeConverters(QuizzesAnswersConverter::class)
     val answers: List<String>,

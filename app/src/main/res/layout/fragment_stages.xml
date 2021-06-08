@@ -40,6 +40,7 @@
                 app:title=" ">
 
                 <ImageView
+                    android:id="@+id/about_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -88,16 +89,34 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stages_recyclerView"
+        <FrameLayout
+            android:id="@+id/recyclerview_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/stages_recycler_view_margin"
-            android:background="@drawable/rounded_corner_background"
-            android:elevation="9dp"
+            android:layout_margin="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_bar" />
+            app:layout_constraintTop_toBottomOf="@id/app_bar">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyle"
+                android:indeterminateDrawable="@drawable/progress"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_gravity="center"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stages_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/stages_recycler_view_margin"
+                android:background="@drawable/rounded_corner_background"
+                android:elevation="9dp"/>
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="TextView"
+            android:gravity="center"
             android:textColor="@color/TextColorPrimary"
             android:textStyle="bold"
             android:textSize="35sp"
@@ -52,18 +53,24 @@
                     android:contentDescription="@string/card_image_content_description"
                     tools:src="@drawable/alghawanimah_gate" />
 
-                <TextView
-                    android:id="@+id/card_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="start"
-                    android:textSize="15sp"
-                    android:padding="15dp"
-                    tools:text="TEST"
-                    android:textColor="@android:color/black"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
+                    <ScrollView
+                        android:id="@+id/card_content_scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/card_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:padding="15dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="19sp"
+                            tools:text="TEST"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                    </ScrollView>
 
                 </LinearLayout>
 

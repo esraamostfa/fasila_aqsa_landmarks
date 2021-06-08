@@ -26,7 +26,7 @@ class StreakFragment : Fragment() {
         val streak = AqsaLandmarksApplication.sharedPref.getInt("streakCounter", 0)
         binding.streak.text = streak.toString()
 
-        binding.streakContainer.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_streakFragment_to_stagesFragment)
         }
 

@@ -1,5 +1,6 @@
 package com.fasila.aqsalandmarks.ui.profile
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -48,10 +49,28 @@ class RegisterFragment : Fragment() {
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString().trim()
             register(name,email, password)
+            animateLogin()
         }
 
         return binding.root
     }
+
+    private fun animateLogin() {
+        binding.progressBar.alpha = 0f
+        binding.progressBar.visibility = View.VISIBLE
+
+        val alphaAnimator = ValueAnimator.ofFloat(0f, 1f)
+        alphaAnimator.duration = 1000
+
+        alphaAnimator.addUpdateListener {
+            val animationAlpha = it.animatedValue as Float
+            binding.progressBar.alpha = animationAlpha
+            binding.container.alpha = 1 - animationAlpha
+        }
+
+        alphaAnimator.start()
+    }
+
 
     override fun onStart() {
         super.onStart()

@@ -8,7 +8,22 @@
     android:background="@color/backgroundColor"
     tools:context=".ui.profile.LoginFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyle"
+            android:indeterminateDrawable="@drawable/progress"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_gravity="center"/>
+
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
@@ -19,9 +34,9 @@
         android:layout_marginBottom="45dp">
         <ImageView
             android:id="@+id/app_icon"
-            android:layout_width="333dp"
-            android:layout_height="333dp"
-            android:src="@mipmap/aqsa_landmarks_logo"
+            android:layout_width="221dp"
+            android:layout_height="221dp"
+            android:src="@drawable/aqsa_magnifier_short"
             android:layout_gravity="center"/>
 
         <!-- Snippet from "Add text fields" section goes here. -->
@@ -99,5 +114,6 @@
             android:textSize="25sp" />
 
     </LinearLayout>
+    </FrameLayout>
 </ScrollView>
 </layout>

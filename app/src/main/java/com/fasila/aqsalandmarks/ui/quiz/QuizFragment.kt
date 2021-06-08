@@ -20,6 +20,9 @@ import com.fasila.aqsalandmarks.R
 import com.fasila.aqsalandmarks.app.AqsaLandmarksApplication
 import com.fasila.aqsalandmarks.databinding.FragmentQuizBinding
 import com.fasila.aqsalandmarks.model.quiz.Quiz
+import com.fasila.aqsalandmarks.model.realtime.Stage
+import com.fasila.aqsalandmarks.rootRef
+import com.google.firebase.auth.FirebaseAuth
 
 
 class QuizFragment : Fragment() {
@@ -37,6 +40,8 @@ class QuizFragment : Fragment() {
     var correctAnswers = 0
     lateinit var sharedPref: SharedPreferences
     private var hearts = 0
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private var numQuizzes: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +60,15 @@ class QuizFragment : Fragment() {
         val viewModelFactory = QuizViewModelFactory(application, cardId)
         viewModel = ViewModelProvider(this, viewModelFactory).get(QuizViewModel::class.java)
 
-        setQuestionImage()
         setQuizCancelButton()
 
         binding.quiz = this
         quizzes = viewModel.quizzes.value?.toMutableList()!!
-        val numQuizzes = quizzes.size.coerceAtMost(3)
+        val footers = listOf(15, 21, 29, 46, 60, 64, 74, 90, 95, 100)
+        numQuizzes =
+            if (viewModel.stage.value?.id?.toInt() in footers) quizzes.size.coerceAtMost(13) else quizzes.size.coerceAtMost(
+                3
+            )
         setQuizzes()
 
         binding.answersRadioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -145,9 +153,14 @@ class QuizFragment : Fragment() {
     }
 
     private fun setQuestionImage() {
-        val card = viewModel.card.value
-        val imageResource =
-            activity?.resources?.getIdentifier(card?.uri, null, activity?.packageName)
+        val cardId = currentQuiz.cardImageId
+        val card = viewModel.getCard(cardId)
+        val imageResource = when (currentQuiz.id) {
+            "90" -> R.drawable.qebly_marwany
+            "86" -> R.drawable.gamea_alnesaa2
+            "82" -> R.drawable.gamea_alnesaa2
+            else -> activity?.resources?.getIdentifier(card.uri, null, activity?.packageName)
+        }
         binding.quizImage.setImageResource(imageResource!!)
     }
 
@@ -162,6 +175,7 @@ class QuizFragment : Fragment() {
         answers = currentQuiz.answers.toMutableList()
         //answers.shuffle()
         setCheckedButtonColor(R.color.TextColorPrimary)
+        setQuestionImage()
     }
 
     private fun setQuizzes() {
@@ -193,23 +207,40 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateQuizProgress() {
-        binding.progressBar.incrementProgressBy((1.0 / quizzes.size.toFloat() * 100.00).toInt())
+        if (quizzes.size < numQuizzes) {
+            binding.progressBar.incrementProgressBy((1.0 / quizzes.size.toFloat() * 100.00).toInt())
+        } else {
+            binding.progressBar.incrementProgressBy((1.0 / numQuizzes.toFloat() * 100.00).toInt())
+        }
     }
 
     private fun heartsNum(correct: Boolean) {
         if (!correct) hearts -= 1 //else hearts += 1
         sharedPref.edit().putString("hearts", hearts.toString()).apply()
+        currentUser?.let {
+            rootRef.child(it.uid).child("hearts").setValue(hearts.toString())
+        }
         binding.heartsNum.text = hearts.toString()
     }
 
     private fun openNextStage(correctAnswers: Int) {
-        val nextStage = viewModel.nextStage.value
+        val nextStage = viewModel.nextStage.value!!
+        val realtimeNextStage = Stage(nextStage.id, nextStage.passed, 0)
         if ((correctAnswers.toFloat() / quizzes.size * 100).toInt() >= 65) {
-            viewModel.updateBadgeAchievement()
-            nextStage?.passed = true
+            viewModel.updateBadgeAchievement(currentUser)
+            nextStage.passed = true
+            currentUser?.let {
+                rootRef.child(it.uid).child("stages").child(nextStage.id)
+                    .setValue(Stage(nextStage.id, true, 0))
+            }
             AqsaLandmarksApplication.calculateStreak(true)
-        }
-        else{
+            val streak = sharedPref.getInt("streakCounter", 0)
+            val lastDay = sharedPref.getInt("lastDay", 0)
+            currentUser?.let {
+                rootRef.child(it.uid).child("streak").setValue(streak)
+                rootRef.child(it.uid).child("lastDay").setValue(lastDay)
+            }
+        } else {
             AqsaLandmarksApplication.calculateStreak(false)
         }
         viewModel.updateStage(viewModel.nextStage.value!!)
@@ -225,7 +256,14 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateStageScore(score: Int) {
-        viewModel.stage.value?.score = score
+        val stage = viewModel.stage.value!!
+        val realtimeStage = Stage(stage.id, stage.passed, score)
+        currentUser?.let {
+            rootRef.child(it.uid).child("stages").child(stage.id).setValue(realtimeStage)
+        }
+        //stageRef.addChildEventListener(Object ValueEventListener() {})
+
+        viewModel.stage.value?.score = realtimeStage.score
         viewModel.updateStage(viewModel.stage.value!!)
     }
 

@@ -9,7 +9,7 @@ import com.fasila.aqsalandmarks.R
 class SplashActivity : AppCompatActivity() {
 
     //private val animation: Animation
-    private val splashTime: Long = 5000 // 3 sec
+    private val splashTime: Long = 3000 // 3 sec
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

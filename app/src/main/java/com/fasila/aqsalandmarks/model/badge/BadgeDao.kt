@@ -1,10 +1,7 @@
 package com.fasila.aqsalandmarks.model.badge
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.fasila.aqsalandmarks.model.quiz.Quiz
 import com.fasila.aqsalandmarks.model.stage.Stage
 
@@ -23,6 +20,9 @@ interface BadgeDao {
     @Query("SELECT * FROM badges_table")
     fun getAllBadges() : LiveData<List<Badge>>
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(badge: Badge)
+
+    @Query("DELETE FROM badges_table")
+    suspend fun deleteAll()
 }

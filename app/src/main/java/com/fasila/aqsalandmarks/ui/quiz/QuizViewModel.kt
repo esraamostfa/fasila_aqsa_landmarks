@@ -9,6 +9,8 @@ import com.fasila.aqsalandmarks.model.badge.Badge
 import com.fasila.aqsalandmarks.model.card.Card
 import com.fasila.aqsalandmarks.model.quiz.Quiz
 import com.fasila.aqsalandmarks.model.stage.Stage
+import com.fasila.aqsalandmarks.rootRef
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -17,24 +19,31 @@ class QuizViewModel(application: Application, private val cardId: String) :
 
     private val repository by lazy { AqsaLandmarksApplication.repository }
 
-    var card = MutableLiveData<Card>()
+    //var card = MutableLiveData<Card>()
     var quizzes = MutableLiveData<List<Quiz>>()
     var nextStage = MutableLiveData<Stage>()
     var stage = MutableLiveData<Stage>()
     lateinit var badge: Badge
 
     init {
-        getCard(cardId)
+        //getCard(cardId)
         getQuizzes(cardId)
-        getNextStage((cardId.toInt()+1).toString())
+
+        val stagesBeforeHeaders = listOf(15, 21, 29, 46, 60, 64, 74, 90, 95)
+        if(cardId.toInt() in stagesBeforeHeaders) {
+            getNextStage((cardId.toInt() + 2).toString())
+        }
+        else {
+            getNextStage((cardId.toInt() + 1).toString())
+        }
         getStage(cardId)
         getBadge(stage.value!!)
 
     }
 
-    private fun getCard(cardId: String) {
+    fun getCard(cardId: String) : Card {
         //viewModelScope.launch {
-        card.value = repository.getCardById(cardId)
+        return repository.getCardById(cardId)
         // }
     }
 
@@ -61,9 +70,16 @@ class QuizViewModel(application: Application, private val cardId: String) :
 
     }
 
-    fun updateBadgeAchievement() {
+    fun updateBadgeAchievement(user: FirebaseUser?) {
         //ensure it's first time to open next stage
-        if (!nextStage.value?.passed!!) badge.achieve++
-        viewModelScope.launch {  repository.updateBadge(badge) }
+        if (!nextStage.value?.passed!!) {
+            badge.achieve++
+            val realtimeBadge =
+                com.fasila.aqsalandmarks.model.realtime.Badge(badge.id, badge.achieve)
+            viewModelScope.launch { repository.updateBadge(badge) }
+            user?.let {
+                rootRef.child(it.uid).child("badges").child(badge.id).setValue(realtimeBadge)
+            }
+        }
     }
 }

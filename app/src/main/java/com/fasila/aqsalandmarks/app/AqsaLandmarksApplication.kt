@@ -10,6 +10,7 @@ import android.os.SystemClock
 import com.fasila.aqsalandmarks.BuildConfig
 import com.fasila.aqsalandmarks.model.AqsaLmRepository
 import com.fasila.aqsalandmarks.model.AqsaLmarksDb
+import com.fasila.aqsalandmarks.rootRef
 import com.fasila.aqsalandmarks.ui.MyBroadcastReceiver
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -21,9 +22,6 @@ import java.util.*
 
 
 class AqsaLandmarksApplication : Application() {
-
-    val database = Firebase.database
-    val stageRef = database.getReference("stage")
 
     override fun onCreate() {
         super.onCreate()
@@ -41,8 +39,8 @@ class AqsaLandmarksApplication : Application() {
         val pendingIntent =
             PendingIntent.getBroadcast(this.applicationContext, 1313, intent, 0)
         alarmManager?.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + interval,
-            interval, pendingIntent
+            SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HOUR,
+            AlarmManager.INTERVAL_HOUR, pendingIntent
         )
 
         val hearts = sharedPref.getString("hearts", null)
@@ -54,6 +52,7 @@ class AqsaLandmarksApplication : Application() {
         val sharedPref: SharedPreferences by lazy {
             appInstance.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         }
+
         lateinit var myPackageName: String
         private lateinit var appInstance: AqsaLandmarksApplication
         private val database by lazy { AqsaLmarksDb.getInstance(appInstance, GlobalScope) }
@@ -71,8 +70,7 @@ class AqsaLandmarksApplication : Application() {
             val calendar = Calendar.getInstance()
             val thisDay: Int = calendar.get(Calendar.DAY_OF_YEAR) // GET THE CURRENT DAY OF THE YEAR
             val lastDay = sharedPref.getInt("lastDay", 0) //If we don't have a saved value, use 0.
-            var streakCounter =
-                sharedPref.getInt("streakCounter", 0) //If we don't have a saved value, use 0.
+            var streakCounter = sharedPref.getInt("streakCounter", 0)//If we don't have a saved value, use 0.
 
             if (openNewStage) {
                 if (lastDay == thisDay - 1 && openNewStage) {
@@ -97,6 +95,8 @@ class AqsaLandmarksApplication : Application() {
                 }
             }
         }
+
+
 
     }
 }

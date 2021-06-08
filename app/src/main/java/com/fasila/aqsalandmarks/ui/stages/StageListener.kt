@@ -2,7 +2,7 @@ package com.fasila.aqsalandmarks.ui.stages
 
 import com.fasila.aqsalandmarks.model.stage.Stage
 
-class StageListener (val clickListener: (stageId: String) -> Unit) {
+class StageListener (val clickListener: (stage: Stage) -> Unit) {
 
-    fun onClick (stage: Stage) = clickListener(stage.id)
+    fun onClick (stage: Stage) = clickListener(stage)
 }
