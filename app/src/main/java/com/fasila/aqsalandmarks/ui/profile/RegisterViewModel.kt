@@ -3,19 +3,12 @@ package com.fasila.aqsalandmarks.ui.profile
 import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.fasila.aqsalandmarks.app.AqsaLandmarksApplication
 import com.fasila.aqsalandmarks.model.profile.Profile
 import com.fasila.aqsalandmarks.model.profile.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.UserInfo
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.profile_back_drop.view.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class RegisterViewModel() : ViewModel() {

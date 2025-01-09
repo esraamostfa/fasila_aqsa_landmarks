@@ -8,7 +8,7 @@ class QuizViewModelFactory (private val application: Application, private val qu
     ViewModelProvider.AndroidViewModelFactory (application) {
 
     @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(QuizViewModel::class.java)) {
             return QuizViewModel(application, quizId) as T
         }

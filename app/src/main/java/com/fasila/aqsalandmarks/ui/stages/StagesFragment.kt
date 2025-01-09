@@ -8,9 +8,15 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.*
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -35,15 +41,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.profile_back_drop.*
-import kotlinx.android.synthetic.main.profile_back_drop.view.*
 import timber.log.Timber
-import java.util.*
+import java.util.Calendar
 
 
 class StagesFragment : Fragment() {
@@ -57,7 +57,7 @@ class StagesFragment : Fragment() {
     private lateinit var badgesLayoutManager: LinearLayoutManager
     val user = Firebase.auth.currentUser
     lateinit var name: String
-    lateinit var email: String
+    private lateinit var email: String
 
 
     override fun onCreateView(
@@ -94,7 +94,7 @@ class StagesFragment : Fragment() {
         }
 
         //initialize viewModel
-        viewModel = ViewModelProvider(this).get(StagesViewModel::class.java)
+        viewModel = ViewModelProvider(this)[StagesViewModel::class.java]
 
         onClickStage()
         setupRecyclerView()
@@ -149,9 +149,9 @@ class StagesFragment : Fragment() {
         binding.stagesRecyclerView.adapter = adapter
         //adapter.updateStages(viewModel.stages)
 
-        viewModel.stages.observe(this.viewLifecycleOwner, Observer { stages ->
+        viewModel.stages.observe(this.viewLifecycleOwner) { stages ->
             stages?.let { adapter.submitList(stages) }
-        })
+        }
         layoutManager = GridLayoutManager(activity, 6)
         setSpanSize(layoutManager)
         binding.stagesRecyclerView.layoutManager = layoutManager
@@ -168,7 +168,7 @@ class StagesFragment : Fragment() {
     }
 
     private fun onClickStage() {
-        viewModel.navigateToStageDialog.observe(viewLifecycleOwner, { stage ->
+        viewModel.navigateToStageDialog.observe(viewLifecycleOwner) { stage ->
             val headers = listOf(0, 16, 22, 30, 47, 61, 65, 75, 91, 96)
             val hearts = AqsaLandmarksApplication.sharedPref.getString("hearts", "0")?.toInt()!!
             stage?.let {
@@ -192,7 +192,7 @@ class StagesFragment : Fragment() {
                 }
             }
 
-        })
+        }
     }
 
 
@@ -203,9 +203,9 @@ class StagesFragment : Fragment() {
             val name = user.displayName
 
             if (emailVerified) {
-                binding.backDrop.user_name.text = name
+                binding.profileBackDrop.userName.text = name
             } else {
-                binding.backDrop.user_name.text = "لم يتم تأكيد بريدك الإلكتروني"
+                binding.profileBackDrop.userName.text = "لم يتم تأكيد بريدك الإلكتروني"
             }
         }
         onClickSignOutButton(user)
@@ -216,8 +216,8 @@ class StagesFragment : Fragment() {
     private fun onClickSignOutButton(user: FirebaseUser?) {
         //val user = Firebase.auth.currentUser
         if (user != null) {
-            binding.backDrop.sign_out_button.text = resources.getText(R.string.sign_out_button_text)
-            binding.backDrop.sign_out_button.setOnClickListener {
+            binding.profileBackDrop.signOutButton.text = resources.getText(R.string.sign_out_button_text)
+            binding.profileBackDrop.signOutButton.setOnClickListener {
                 Firebase.auth.signOut()
                 deleteUserData()
                 Handler().postDelayed({
@@ -227,8 +227,8 @@ class StagesFragment : Fragment() {
                 }, 3000)
             }
         } else {
-            binding.backDrop.sign_out_button.text = "تسجيل دخول أو انشاء حساب"
-            binding.backDrop.sign_out_button.setOnClickListener {
+            binding.profileBackDrop.signOutButton.text = "تسجيل دخول أو انشاء حساب"
+            binding.profileBackDrop.signOutButton.setOnClickListener {
                 deleteUserData()
                 findNavController().navigate(R.id.action_stagesFragment_to_openingFragment)
 
@@ -246,7 +246,7 @@ class StagesFragment : Fragment() {
     }
 
     private fun deleteStagesUserData() {
-        viewModel.stages.observe(this.viewLifecycleOwner, Observer { stages ->
+        viewModel.stages.observe(this.viewLifecycleOwner) { stages ->
             stages?.let {
                 for (stage in stages) {
                     if (stage.id == "1") {
@@ -260,11 +260,11 @@ class StagesFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun deleteBadgesUserData() {
-        viewModel.badges.observe(this.viewLifecycleOwner, Observer { badges ->
+        viewModel.badges.observe(this.viewLifecycleOwner) { badges ->
             badges?.let {
                 for (badge in badges) {
                     badge.achieve = 0
@@ -272,25 +272,25 @@ class StagesFragment : Fragment() {
                     Timber.i(badge.toString())
                 }
             }
-        })
+        }
 
     }
 
     private fun onClickSettingsButton(user: FirebaseUser?) {
         if (user != null) {
-            binding.backDrop.settings_button.visibility = View.VISIBLE
-            binding.backDrop.settings_button.setOnClickListener {
+            binding.profileBackDrop.settingsButton.visibility = View.VISIBLE
+            binding.profileBackDrop.settingsButton.setOnClickListener {
                 createDropDownMenu(user)
                 //findNavController().navigate(R.id.action_stagesFragment_to_settingsDialogFragment)
             }
         } else {
-            binding.backDrop.settings_button.visibility = View.GONE
+            binding.profileBackDrop.settingsButton.visibility = View.GONE
         }
     }
 
     private fun createDropDownMenu(user: FirebaseUser) {
 
-        val dropDownMenu = PopupMenu(context, binding.backDrop.settings_button)
+        val dropDownMenu = PopupMenu(context, binding.profileBackDrop.settingsButton)
         val menu = dropDownMenu.menu
 
         menu.add(0, 0, 0, "تعديل اسم المستخدم")
@@ -317,15 +317,15 @@ class StagesFragment : Fragment() {
     }
 
     private fun editUserName(user: FirebaseUser) {
-        edit_user_name.visibility = View.VISIBLE
-        user_name.visibility = View.GONE
-        binding.backDrop.edit_user_name.setText(user.displayName)
+        binding.profileBackDrop.editUserName.visibility = View.VISIBLE
+        binding.profileBackDrop.userName.visibility = View.GONE
+        binding.profileBackDrop.editUserName.setText(user.displayName)
 
-        binding.backDrop.settings_button.visibility = View.GONE
-        binding.backDrop.save_button.visibility = View.VISIBLE
-        binding.backDrop.save_button.setOnClickListener {
+        binding.profileBackDrop.settingsButton.visibility = View.GONE
+        binding.profileBackDrop.saveButton.visibility = View.VISIBLE
+        binding.profileBackDrop.saveButton.setOnClickListener {
             val profileUpdates = userProfileChangeRequest {
-                displayName = binding.backDrop.edit_user_name.text.toString()
+                displayName = binding.profileBackDrop.editUserName.text.toString()
             }
             user.updateProfile(profileUpdates)
                 .addOnCompleteListener { task ->
@@ -336,10 +336,10 @@ class StagesFragment : Fragment() {
                     }
                 }
 
-            binding.backDrop.settings_button.visibility = View.VISIBLE
-            binding.backDrop.save_button.visibility = View.GONE
-            binding.backDrop.user_name.visibility = View.VISIBLE
-            binding.backDrop.edit_user_name.visibility = View.GONE
+            binding.profileBackDrop.settingsButton.visibility = View.VISIBLE
+            binding.profileBackDrop.saveButton.visibility = View.GONE
+            binding.profileBackDrop.userName.visibility = View.VISIBLE
+            binding.profileBackDrop.editUserName.visibility = View.GONE
         }
     }
 
@@ -433,12 +433,12 @@ class StagesFragment : Fragment() {
 
     private fun setBadgesRecyclerView() {
         badgesAdapter = BadgesRecyclerViewAdapter()
-        binding.backDrop.badges_recyclerview.adapter = badgesAdapter
-        viewModel.badges.observe(this.viewLifecycleOwner, Observer { badges ->
+        binding.profileBackDrop.badgesRecyclerview.adapter = badgesAdapter
+        viewModel.badges.observe(this.viewLifecycleOwner) { badges ->
             badges?.let { badgesAdapter.submitList(badges) }
-        })
+        }
         badgesLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.backDrop.badges_recyclerview.layoutManager = badgesLayoutManager
+        binding.profileBackDrop.badgesRecyclerview.layoutManager = badgesLayoutManager
     }
 
     private fun setStreakColor() {

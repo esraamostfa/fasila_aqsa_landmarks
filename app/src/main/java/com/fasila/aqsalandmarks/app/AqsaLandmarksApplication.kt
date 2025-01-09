@@ -1,5 +1,7 @@
 package com.fasila.aqsalandmarks.app
 
+//import com.fasila.aqsalandmarks.BuildConfig
+//import timber.log.Timber.i
 import android.app.AlarmManager
 import android.app.Application
 import android.app.PendingIntent
@@ -7,27 +9,24 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.SystemClock
-import com.fasila.aqsalandmarks.BuildConfig
 import com.fasila.aqsalandmarks.model.AqsaLmRepository
 import com.fasila.aqsalandmarks.model.AqsaLmarksDb
-import com.fasila.aqsalandmarks.rootRef
 import com.fasila.aqsalandmarks.ui.MyBroadcastReceiver
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.GlobalScope
 import timber.log.Timber
-import timber.log.Timber.DebugTree
-import timber.log.Timber.i
-import java.util.*
+import java.util.Calendar
 
 
 class AqsaLandmarksApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
+//        if (BuildConfig.DEBUG) {
+//            Timber.plant(DebugTree())
+//        }
+
+        FirebaseApp.initializeApp(this)
 
         myPackageName = applicationContext.packageName
         appInstance = this
@@ -37,7 +36,8 @@ class AqsaLandmarksApplication : Application() {
             appInstance.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
         val intent = Intent(this, MyBroadcastReceiver::class.java)
         val pendingIntent =
-            PendingIntent.getBroadcast(this.applicationContext, 1313, intent, 0)
+            PendingIntent.getBroadcast(this.applicationContext, 1313, intent,
+                PendingIntent.FLAG_IMMUTABLE)
         alarmManager?.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HOUR,
             AlarmManager.INTERVAL_HOUR, pendingIntent

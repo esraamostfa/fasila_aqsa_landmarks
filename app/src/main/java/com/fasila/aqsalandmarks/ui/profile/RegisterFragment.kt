@@ -29,7 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class RegisterFragment : Fragment() {
 
-    lateinit var viewModel: RegisterViewModel
+    private lateinit var viewModel: RegisterViewModel
     lateinit var binding: FragmentRegisterBinding
     private val auth = FirebaseAuth.getInstance()
 
@@ -39,7 +39,7 @@ class RegisterFragment : Fragment() {
     ): View {
 
         //initialize viewModel
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)

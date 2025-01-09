@@ -20,7 +20,9 @@
             android:paddingTop="70dp"
             android:paddingBottom="130dp">
 
-            <include layout="@layout/profile_back_drop"/>
+            <include
+                android:id="@+id/profile_back_drop"
+                layout="@layout/profile_back_drop"/>
 
         </LinearLayout>
 

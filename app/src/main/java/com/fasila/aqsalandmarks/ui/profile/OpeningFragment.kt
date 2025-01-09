@@ -59,9 +59,9 @@ class OpeningFragment : Fragment() {
         // Check if user is signed in (non-null) and update UI accordingly.
         auth.currentUser?.let {
             if (it.isEmailVerified){
-            findNavController().navigate(R.id.action_openingFragment_to_stagesFragment)
-        } else {
-            findNavController().navigate(R.id.action_openingFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_openingFragment_to_stagesFragment)
+            } else {
+                findNavController().navigate(R.id.action_openingFragment_to_loginFragment)
             }
         }
     }

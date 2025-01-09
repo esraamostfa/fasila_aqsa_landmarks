@@ -1,18 +1,12 @@
 package com.fasila.aqsalandmarks.ui.stages
 
-import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.util.Log.d
-import androidx.annotation.DrawableRes
+import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.fasila.aqsalandmarks.R
-import com.fasila.aqsalandmarks.app.AqsaLandmarksApplication
-import kotlinx.android.synthetic.main.stage_item.view.*
-import timber.log.Timber
 
 class StagesDividerDecoration (color: Int, private val heightInPixels: Int, private val context: Context) : RecyclerView.ItemDecoration() {
 
@@ -30,8 +24,9 @@ class StagesDividerDecoration (color: Int, private val heightInPixels: Int, priv
 
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
-            val isFooter = child.sub_stage_image_button.drawable.constantState == ResourcesCompat.getDrawable(context.resources, R.drawable.star, null)?.constantState
-                    || child.sub_stage_image_button.drawable.constantState == ResourcesCompat.getDrawable(context.resources, R.drawable.star_dark, null)?.constantState
+            val subStageImageBtn = child.findViewById<ImageView>(R.id.sub_stage_image_button)
+            val isFooter = subStageImageBtn.drawable.constantState == ResourcesCompat.getDrawable(context.resources, R.drawable.star, null)?.constantState
+                    || subStageImageBtn.drawable.constantState == ResourcesCompat.getDrawable(context.resources, R.drawable.star_dark, null)?.constantState
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom - params.bottomMargin*3
             val bottom = top + heightInPixels
