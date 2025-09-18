@@ -25,7 +25,7 @@ class StagesViewModel : ViewModel() {
         badges = repository.getAllBadges()
     }
 
-    private val _navigateToStageDialog = MutableLiveData<Stage>()
+    private val _navigateToStageDialog = MutableLiveData<Stage?>()
     val navigateToStageDialog
         get() = _navigateToStageDialog
 

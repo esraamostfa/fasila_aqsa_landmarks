@@ -221,10 +221,13 @@ class StagesFragment : Fragment() {
                 Firebase.auth.signOut()
                 deleteUserData()
                 Handler().postDelayed({
-                    Toast.makeText(requireContext(), "لقد قمت بتسجيل الخروج", Toast.LENGTH_LONG)
-                        .show()
+                    val ctx = context ?: return@postDelayed
+                    if (!isAdded) return@postDelayed   // fragment no longer attached
+
+                    Toast.makeText(ctx, "لقد قمت بتسجيل الخروج", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_stagesFragment_to_openingFragment)
                 }, 3000)
+
             }
         } else {
             binding.profileBackDrop.signOutButton.text = "تسجيل دخول أو انشاء حساب"
